@@ -1,0 +1,525 @@
+--creating table for Pet
+
+CREATE TABLE Pet (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    species VARCHAR(50) NOT NULL,
+    breed VARCHAR(50),
+    age INT,
+    gender VARCHAR(10),
+    description TEXT,
+    medical_history TEXT,
+    photo BLOB,
+    shelter_ID INT,
+    FOREIGN KEY (shelter_ID) REFERENCES Shelter(ID)
+);
+
+--creating table for Adopter
+
+CREATE TABLE Adopter (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    address VARCHAR(255),
+    phone_number VARCHAR(15),
+    email VARCHAR(100) UNIQUE,
+    occupation VARCHAR(100),
+    lifestyle VARCHAR(255),
+    references TEXT
+);
+
+
+--creating table for Donation
+
+CREATE TABLE Donation (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    donor_ID INT,
+    shelter_ID INT,
+    amount DECIMAL(10, 2) NOT NULL,
+    date DATE,
+    type VARCHAR(50),
+    FOREIGN KEY (donor_ID) REFERENCES Adopter(ID),
+    FOREIGN KEY (shelter_ID) REFERENCES Shelter(ID)
+);
+
+
+--creating table for Volunteer
+
+CREATE TABLE Volunteer (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    address VARCHAR(255),
+    phone_number VARCHAR(15),
+    email VARCHAR(100) UNIQUE,
+    skills VARCHAR(255),
+    availability VARCHAR(100)
+);
+
+
+--creating table for Adoption
+
+CREATE TABLE Adoption (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    pet_ID INT,
+    adopter_ID INT,
+    shelter_ID INT,
+    adoption_date DATE,
+    adoption_fee DECIMAL(10, 2),
+    follow_up_date DATE,
+    FOREIGN KEY (pet_ID) REFERENCES Pet(ID),
+    FOREIGN KEY (adopter_ID) REFERENCES Adopter(ID),
+    FOREIGN KEY (shelter_ID) REFERENCES Shelter(ID)
+);
+
+--creating table for Events
+
+CREATE TABLE Event (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    shelter_ID INT,
+    type VARCHAR(100),
+    date DATE,
+    location VARCHAR(255),
+    description TEXT,
+    volunteers_needed INT,
+    FOREIGN KEY (shelter_ID) REFERENCES Shelter(ID)
+);
+
+
+
+
+-- inserting values into the Pet table
+
+INSERT INTO Pet (species, breed, age, gender, description, medical_history, photo, shelter_ID)
+VALUES
+('Dog', 'Rajapalayam', 3, 'Male', 'Friendly and playful', 'Vaccinated and dewormed', NULL, 1),
+('Cat', 'Indian Mau', 2, 'Female', 'Quiet and affectionate', 'Spayed and vaccinated', NULL, 2),
+('Rabbit', 'Indian White', 1, 'Male', 'Loves to hop around', 'Healthy, no medical issues', NULL, 1),
+('Dog', 'Kombai', 4, 'Female', 'Calm and loyal', 'Had surgery for hip dysplasia', NULL, 3),
+('Bird', 'Indian Ringneck Parakeet', 5, 'Male', 'Talkative and social', 'Needs regular checkups for beak trimming', NULL, 2);
+
+
+
+--inserting values into adopter table
+
+
+INSERT INTO Adopter (name, address, phone_number, email, occupation, lifestyle, references)
+VALUES
+('Rahul Sharma', '1234 MG Road, Delhi', '9876543210', 'rahul.sharma@example.com', 'Software Engineer', 'Active, enjoys outdoor activities', 'Friend: Ankit Verma, Phone: 9876543211'),
+('Anjali Patel', '5678 Nehru Nagar, Mumbai', '9876543211', 'anjali.patel@example.com', 'Teacher', 'Quiet lifestyle, loves reading', 'Colleague: Sneha Desai, Phone: 9876543212'),
+('Vikram Singh', '4321 Gariahat, Kolkata', '9876543212', 'vikram.singh@example.com', 'Doctor', 'Busy professional, enjoys hiking', 'Family: Neha Singh, Phone: 9876543213'),
+('Priya Iyer', '9876 MG Road, Chennai', '9876543213', 'priya.iyer@example.com', 'Freelance Designer', 'Works from home, loves pets', 'Neighbor: Meera Menon, Phone: 9876543214'),
+('Rohit Verma', '6543 Brigade Road, Bangalore', '9876543214', 'rohit.verma@example.com', 'Accountant', 'Organized, loves routine', 'Friend: Arun Nair, Phone: 9876543215');
+
+
+
+
+--inserting values in donation table 
+
+INSERT INTO Donation (donor_ID, shelter_ID, amount, date, type)
+VALUES
+(1, 1, 5000.00, '2024-08-01', 'Cash'),
+(2, 2, 7500.50, '2024-08-05', 'Online Transfer'),
+(3, 1, 3000.00, '2024-08-10', 'Cheque'),
+(4, 3, 10000.00, '2024-08-15', 'Cash'),
+(5, 2, 8500.75, '2024-08-18', 'Online Transfer');
+
+
+--inserting values in volunteer table
+
+
+INSERT INTO Volunteer (name, address, phone_number, email, skills, availability)
+VALUES
+('Anita Rao', '12 MG Road, Hyderabad', '9876543210', 'anita.rao@example.com', 'Animal care, First aid', 'Weekends'),
+('Ravi Deshmukh', '56 Marine Drive, Mumbai', '9876543211', 'ravi.deshmukh@example.com', 'Event organization, Fundraising', 'Weekdays, Evenings'),
+('Kavya Nair', '789 Brigade Road, Bangalore', '9876543212', 'kavya.nair@example.com', 'Social media management, Photography', 'Weekends, Mornings'),
+('Suresh Yadav', '23 Park Street, Kolkata', '9876543213', 'suresh.yadav@example.com', 'Transport, Logistics', 'Weekdays, Mornings'),
+('Meera Sharma', '45 Connaught Place, Delhi', '9876543214', 'meera.sharma@example.com', 'Pet grooming, Animal behavior training', 'Anytime');
+
+
+--inserting values in Adoption table
+
+
+INSERT INTO Adoption (pet_ID, adopter_ID, shelter_ID, adoption_date, adoption_fee, follow_up_date)
+VALUES
+(1, 1, 1, '2024-08-01', 2500.00, '2024-08-15'),
+(2, 2, 2, '2024-08-05', 3000.50, '2024-08-20'),
+(3, 3, 1, '2024-08-10', 1500.00, '2024-08-25'),
+(4, 4, 3, '2024-08-12', 3500.00, '2024-08-27'),
+(5, 5, 2, '2024-08-18', 5000.75, '2024-09-01');
+
+
+--inserting values in event table
+
+
+INSERT INTO Event (shelter_ID, type, date, location, description, volunteers_needed)
+VALUES
+(1, 'Adoption Drive', '2024-08-15', 'Central Park, Delhi', 'A large-scale adoption drive for pets.', 10),
+(2, 'Fundraising Gala', '2024-09-05', 'Taj Hotel, Mumbai', 'A gala event to raise funds for animal welfare.', 5),
+(3, 'Awareness Walk', '2024-09-20', 'Marine Drive, Kolkata', 'A walk to raise awareness for stray animals.', 15),
+(1, 'Pet Care Workshop', '2024-10-01', 'Community Hall, Bangalore', 'A workshop teaching basic pet care skills.', 8),
+(2, 'Vaccination Camp', '2024-10-15', 'Veterinary Hospital, Chennai', 'A free vaccination camp for stray animals.', 12);
+
+
+--DDL COMMANDS
+
+--Add a New Column:
+	
+ALTER TABLE Adopter
+ADD COLUMN date_of_birth DATE;
+
+
+--Modify an Existing Column:
+
+ALTER TABLE Adopter
+MODIFY COLUMN phone_number VARCHAR(20);
+
+--Rename a Column:
+
+ALTER TABLE Adopter
+RENAME COLUMN lifestyle TO lifestyle_description;
+
+--Drop a Column:
+
+ALTER TABLE Adopter
+DROP COLUMN references;
+
+--Rename the Table:
+
+RENAME TABLE Adopter TO PetAdopter;
+
+--Drop the Table (if needed):
+
+DROP TABLE PetAdopter;
+
+
+
+
+--DML COMMANDS
+
+
+--Insert Data:
+
+INSERT INTO Adopter (name, address, phone_number, email, occupation, lifestyle, references, date_of_birth)
+VALUES
+('Rahul Sharma', '1234 MG Road, Delhi', '9876543210', 'rahul.sharma@example.com', 'Software Engineer', 'Active, enjoys outdoor activities', 'Friend: Ankit Verma, Phone: 9876543211', '1985-03-15');
+
+
+--Update Data:
+
+UPDATE Adopter
+SET address = '4567 New Address, Delhi', phone_number = '9999999999'
+WHERE email = 'rahul.sharma@example.com';
+
+--Delete Data:
+
+DELETE FROM Adopter
+WHERE email = 'rohit.verma@example.com';
+
+--Select Data:
+
+SELECT * FROM Adopter;
+
+
+
+--DCL COMMANDS
+
+--Grant All Permissions:
+
+GRANT ALL PRIVILEGES ON Adopter TO 'admin_user'@'localhost';
+
+--Revoke All Permissions:
+
+REVOKE ALL PRIVILEGES ON Adopter FROM 'admin_user'@'localhost';
+
+
+
+--TCL COMMANDS
+
+--commit
+
+COMMIT;
+
+
+--rollback
+
+ROLLBACK;
+
+
+
+
+--INBUILT FUNCTIONS
+
+-- COUNT: Count the number of rows in the table.
+
+
+SELECT COUNT(*) AS total_adopters
+FROM Adopter;
+
+
+--SUM: Sum up a numeric column (assuming you had a column with numeric data).
+
+SELECT SUM(donation_amount) AS total_donations
+FROM Donations;
+
+--AVG: Calculate the average value of a numeric column.
+
+
+SELECT AVG(age) AS average_age
+FROM Adopter;
+
+--MAX: Find the maximum value in a column.
+
+SELECT MAX(age) AS oldest_adopter
+FROM Adopter;
+
+--MIN: Find the minimum value in a column.
+
+
+SELECT MIN(age) AS youngest_adopter
+FROM Adopter;
+
+
+--NESTED QUERIES
+
+-- Find Adopters Who Have Adopted Pets
+
+SELECT name
+FROM Adopter
+WHERE ID IN (
+    SELECT adopter_ID
+    FROM Adoption
+);
+
+--Find the Most Recent Adoption Date for Each Pet
+
+SELECT pet_ID, MAX(adoption_date) AS most_recent_adoption
+FROM Adoption
+GROUP BY pet_ID;
+
+
+
+--SET OPERATORS AND VIEWS
+
+
+--UNION:
+
+
+-- Adopters from Delhi
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Delhi%'
+
+UNION
+
+-- Adopters from Mumbai
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Mumbai%';
+
+
+--UNION ALL:
+
+
+-- Adopters from Delhi
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Delhi%'
+
+UNION ALL
+
+-- Adopters from Mumbai
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Mumbai%';
+
+
+--INTERSECT:
+
+-- Adopters living in Delhi
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Delhi%'
+
+INTERSECT
+
+-- Adopters living in Mumbai
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Mumbai%';
+
+
+--EXCEPT:
+
+
+-- Adopters living in Delhi
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Delhi%'
+
+EXCEPT
+
+-- Adopters living in Mumbai
+SELECT name
+FROM Adopter
+WHERE address LIKE '%Mumbai%';
+
+
+
+--VIEWS:
+
+
+CREATE VIEW AdoptionSummary AS
+SELECT
+    a.name AS adopter_name,
+    p.species AS pet_species,
+    ad.adoption_date AS adoption_date
+FROM
+    Adoption ad
+JOIN
+    Adopter a ON ad.adopter_ID = a.ID
+JOIN
+    Pet p ON ad.pet_ID = p.ID;
+
+
+
+
+--PL/SQL PROCEDURES ANF FUNCTIONS
+
+
+--procedures
+
+CREATE OR REPLACE PROCEDURE AddAdopter (
+    p_name IN VARCHAR2,
+    p_address IN VARCHAR2,
+    p_phone_number IN VARCHAR2,
+    p_email IN VARCHAR2,
+    p_occupation IN VARCHAR2,
+    p_lifestyle IN VARCHAR2,
+    p_references IN VARCHAR2
+)
+AS
+BEGIN
+    INSERT INTO Adopter (
+        name, address, phone_number, email, occupation, lifestyle, references
+    )
+    VALUES (
+        p_name, p_address, p_phone_number, p_email, p_occupation, p_lifestyle, p_references
+    );
+    
+    COMMIT;  -- Optional: To make the insertion permanent
+END;
+/
+
+
+--calling the procedures
+
+BEGIN
+    AddAdopter(
+        p_name => 'Ravi Kumar',
+        p_address => '123 Main St, Bangalore',
+        p_phone_number => '9876543210',
+        p_email => 'ravi.kumar@example.com',
+        p_occupation => 'Engineer',
+        p_lifestyle => 'Active, enjoys outdoor activities',
+        p_references => 'Colleague: Anil Sharma, Phone: 9876543211'
+    );
+END;
+/
+
+
+-- PL/SQL Function Example:
+
+CREATE OR REPLACE FUNCTION GetTotalAdoptedPets (
+    p_adopter_id IN INT
+) RETURN INT
+AS
+    v_total_pets INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_total_pets
+    FROM Adoption
+    WHERE adopter_ID = p_adopter_id;
+
+    RETURN v_total_pets;
+END;
+/
+
+
+--calling pl/sql function
+
+
+DECLARE
+    v_total INT;
+BEGIN
+    v_total := GetTotalAdoptedPets(p_adopter_id => 1);
+    DBMS_OUTPUT.PUT_LINE('Total adopted pets: ' || v_total);
+END;
+/
+
+
+
+--PL/SQL CURSORS AND EXCEPTIONAL HANDLING
+
+
+-- PL/SQL cursors
+
+-- Declare the cursor
+DECLARE
+    CURSOR c_adopters IS
+        SELECT name, address, phone_number
+        FROM Adopter;
+
+    -- Variables to hold the cursor data
+    v_name Adopter.name%TYPE;
+    v_address Adopter.address%TYPE;
+    v_phone_number Adopter.phone_number%TYPE;
+
+BEGIN
+    -- Open the cursor
+    OPEN c_adopters;
+
+    -- Fetch rows from the cursor
+    LOOP
+        FETCH c_adopters INTO v_name, v_address, v_phone_number;
+        EXIT WHEN c_adopters%NOTFOUND;
+
+        -- Process the fetched row
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_name || ', Address: ' || v_address || ', Phone: ' || v_phone_number);
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE c_adopters;
+END;
+/
+
+--PL/SQL Exception Handling:
+
+
+
+DECLARE
+    v_adopter_name Adopter.name%TYPE;
+BEGIN
+    -- Attempt to retrieve a specific adopter
+    SELECT name
+    INTO v_adopter_name
+    FROM Adopter
+    WHERE ID = 999; -- Assume ID 999 does not exist
+
+    DBMS_OUTPUT.PUT_LINE('Adopter Name: ' || v_adopter_name);
+
+EXCEPTION
+    -- Handle the case where no data is found
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No adopter found with the specified ID.');
+
+    -- Handle other possible exceptions
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);
+END;
+/
+
+
+
+
+
+
+
+
